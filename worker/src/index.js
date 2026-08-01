@@ -1002,9 +1002,28 @@ function macSetup(token, origin) {
     "Set up your Mac",
     `
     <p><a href="/" class="quiet">&larr; Back to inbox</a></p>
-    <h1>Set up your Mac</h1>
-    <p class="sub">One button in your bookmarks bar. Click it on any page and that page goes
-    to your inbox &mdash; no copying, no pasting.</p>
+    <h1>Set up your computer</h1>
+    <p class="sub">Two options. The extension is better if you're in Chrome; the bookmark works
+    in any browser with nothing to install.</p>
+
+    <div class="section">
+      <h2>Option A &middot; the Chrome extension</h2>
+      <ol ${OL}>
+        <li>Get the <code>extension</code> folder from the Agent Inbox repo.</li>
+        <li>Open <code>chrome://extensions</code> and turn on <b>Developer mode</b>.</li>
+        <li>Click <b>Load unpacked</b> and choose that folder.</li>
+        <li>Open the extension's options and paste the two values below.</li>
+      </ol>
+      ${copyBox("x1", origin, "Your inbox address:")}
+      ${copyBox("x2", token, "Your secret key — keep it private:")}
+      <p>Then click the toolbar icon to send any page, right-click a link to send just that link,
+      or press <b>Alt+Shift+S</b>.</p>
+      <p class="quiet">Worth it if you use Chrome: the extension works on every site, including
+      ones whose security policy blocks the bookmark below.</p>
+    </div>
+
+    <div class="section">
+      <h2>Option B &middot; a bookmark, nothing to install</h2></div>
 
     <div class="section">
       <h2>Step 1 &middot; show the bookmarks bar</h2>
