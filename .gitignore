@@ -1,0 +1,26 @@
+# Credentials — never commit
+.secrets/
+worker/.dev.vars
+*.dev.vars
+.env
+*.env
+
+# Your own saved links and review history are yours, not part of the app
+archive/
+
+# Local, machine-specific agent config
+.claude/settings.local.json
+.claude/settings.json
+CLAUDE.md
+LOCAL.md
+YOUR-INBOX.md
+
+# Build artifacts
+node_modules/
+.wrangler/
+dist/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Agent Inbox — settings</title>
+<style>
+  :root {
+    --bg:#f7f6f3; --card:#fff; --ink:#1c1c1a; --muted:#6b6b66;
+    --line:#e3e1dc; --accent:#c2410c; --accent-ink:#fff; --ok:#166534; --ok-bg:#dcfce7;
+    --bad:#991b1b; --bad-bg:#fee2e2;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0f1115; --card:#181b21; --ink:#ececea; --muted:#9a9a94;
+      --line:#2a2e37; --accent:#d97757; --accent-ink:#1a1a18; --ok:#86efac; --ok-bg:#14321f;
+      --bad:#fca5a5; --bad-bg:#3b1717;
+    }
+  }
+  * { box-sizing:border-box; }
+  body {
+    margin:0; background:var(--bg); color:var(--ink); padding:32px 20px 60px;
+    font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  }
+  main { max-width:560px; margin:0 auto; }
+  h1 { font-size:26px; margin:0 0 4px; letter-spacing:-.02em; }
+  .sub { color:var(--muted); margin:0 0 28px; }
+  label { display:block; font-weight:600; margin:20px 0 6px; }
+  .hint { color:var(--muted); font-size:14px; font-weight:400; margin:0 0 8px; }
+  input {
+    width:100%; font:inherit; color:var(--ink); background:var(--card);
+    border:2px solid var(--line); border-radius:12px; padding:13px;
+  }
+  input:focus { outline:none; border-color:var(--accent); }
+  button {
+    width:100%; font:600 17px/1 inherit; font-family:inherit; margin-top:22px;
+    background:var(--accent); color:var(--accent-ink); border:0; border-radius:12px;
+    padding:17px; cursor:pointer;
+  }
+  button:active { opacity:.85; }
+  #status { margin-top:18px; padding:14px; border-radius:12px; display:none; font-size:15px; }
+  #status.ok  { display:block; background:var(--ok-bg);  color:var(--ok); }
+  #status.bad { display:block; background:var(--bad-bg); color:var(--bad); }
+  .foot { color:var(--muted); font-size:14px; margin-top:30px; }
+  code { background:var(--card); padding:2px 6px; border-radius:5px; font-size:13px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Agent Inbox</h1>
+  <p class="sub">Point this at your inbox and you can send any page with one click.</p>
+
+  <label for="base">Your inbox address</label>
+  <p class="hint">The web address of your inbox, e.g. <code>https://agent-inbox.you.workers.dev</code></p>
+  <input id="base" type="url" placeholder="https://agent-inbox.you.workers.dev"
+         autocapitalize="none" autocorrect="off" spellcheck="false">
+
+  <label for="key">Your secret key</label>
+  <p class="hint">Open your inbox, go to <b>Set up</b>, and copy the key shown there.</p>
+  <input id="key" type="password" placeholder="paste your key"
+         autocapitalize="none" autocorrect="off" spellcheck="false">
+
+  <button id="save">Save and test</button>
+  <div id="status"></div>
+
+  <p class="foot">Stored locally in this browser only &mdash; never synced to any account.
+  Chrome will ask permission to talk to your inbox address; that's the extension asking for
+  access to that one site, nothing else.</p>
+</main>
+<script src="options.js"></script>
+</body>
+</html>
