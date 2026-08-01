@@ -56,26 +56,38 @@ it a couple of times Android promotes it up the list.
 
 ## Step 3 · Desktop browser
 
-### The Chrome extension (recommended)
+Three options, same result. Pick one.
 
-Works on every site, including ones with strict security policies.
+### A. Userscript — one click, updates itself
 
-1. Download the repo — on GitHub, **Code → Download ZIP** — and unzip it
+1. Install [Tampermonkey](https://www.tampermonkey.net/) or
+   [Violentmonkey](https://violentmonkey.github.io/) once, from your browser's store
+2. Click the `userscript/agent-inbox.user.js` file in this repo — your manager offers to install it
+3. The first time you use it, it asks for your inbox address and secret key
+
+Press <kbd>Alt</kbd><kbd>Shift</kbd><kbd>S</kbd> on any page, or use the manager's menu.
+Highlight some text first and it's saved as your note.
+
+### B. Chrome extension — feels most native
+
+1. Download the repo — on GitHub, **Code → Download ZIP** — and unzip it somewhere permanent
 2. Go to `chrome://extensions` and turn on **Developer mode** (top right)
 3. Click **Load unpacked** and choose the `extension` folder
-4. Click the extension's **Details → Extension options**
-5. Paste your inbox address and secret key, then press **Save and test**
+4. Click **Details → Extension options**, paste your inbox address and secret key, press
+   **Save and test**
 
-Both values are on your inbox's `/setup` page, each with a copy button.
+Both values are on your inbox's `/setup` page, each with a copy button. Chrome will ask
+permission to talk to your inbox address — that's access to that one site only.
 
-Chrome will ask permission to talk to your inbox address — that's access to that one site only.
+Click the toolbar icon to send the current page, right-click a link to send just that link, or
+press <kbd>Alt</kbd><kbd>Shift</kbd><kbd>S</kbd>.
 
-Now click the toolbar icon to send the current page, right-click a link to send just that link,
-or press <kbd>Alt</kbd><kbd>Shift</kbd><kbd>S</kbd>.
+Leave the unzipped folder where it is — Chrome reloads it from that path on every launch. To
+update later, replace the folder's contents and press the reload arrow on the extensions page.
 
-### Or a bookmarklet, if you'd rather not install anything
+### C. Bookmarklet — nothing to install
 
-Your inbox's `/setup` page has a ready-made bookmarklet with a copy button.
+Your inbox's `/setup` page has a ready-made one with a copy button.
 
 1. Press <kbd>⇧</kbd><kbd>⌘</kbd><kbd>B</kbd> (or <kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>B</kbd>) to
    show the bookmarks bar

@@ -64,25 +64,58 @@ Four ways in, one destination. Your inbox's `/setup` page walks through each wit
 | **Desktop browser** | The Chrome extension, or a bookmarklet |
 | **Anywhere** | Open the inbox page and paste |
 
-### Chrome extension
+### Browser button — three ways, pick one
 
-Not on the Web Store, so you load it yourself. Takes a minute:
+| | Install effort | Auto-updates | Works on every site |
+|---|---|---|---|
+| **Userscript** | One click, if you already have Tampermonkey | Yes | Yes |
+| **Chrome extension** | Download, unzip, enable Developer mode | No, manual | Yes |
+| **Bookmarklet** | Copy one line into a bookmark | No | Yes |
 
-1. Download this repo — on GitHub, **Code → Download ZIP** — and unzip it
+All three do the same job. The userscript is the easiest to hand to someone else; the extension
+feels most native; the bookmarklet needs nothing installed at all.
+
+#### Userscript (easiest to share)
+
+1. Install [Tampermonkey](https://www.tampermonkey.net/) or
+   [Violentmonkey](https://violentmonkey.github.io/) — one-time, from your browser's store
+2. Click **[agent-inbox.user.js](userscript/agent-inbox.user.js?raw=1)** — your userscript manager
+   offers to install it
+3. First time you use it, it asks for your inbox address and key
+
+Then press <kbd>Alt</kbd><kbd>Shift</kbd><kbd>S</kbd> on any page, or use the manager's menu.
+Highlight text before sending and it's saved as your note.
+
+It updates itself when you push a new version, which the extension can't do off-store.
+
+#### Chrome extension
+
+1. Download this repo — **Code → Download ZIP** — and unzip it
 2. Go to `chrome://extensions` and turn on **Developer mode** (top right)
 3. Click **Load unpacked** and choose the `extension` folder
-4. Click the extension's **Details → Extension options**, paste your inbox address and secret
-   key, and press **Save and test**
+4. Open **Details → Extension options**, paste your inbox address and key, press **Save and test**
 
-Your key is on your inbox's **Set up** page, with a copy button.
+Toolbar icon sends the current page, right-click sends a link or selection,
+<kbd>Alt</kbd><kbd>Shift</kbd><kbd>S</kbd> works too.
 
-Click the toolbar icon to send the current page, right-click a link to send that, or press
-<kbd>Alt</kbd><kbd>Shift</kbd><kbd>S</kbd>.
+Keep the folder where it is — Chrome loads it from that path every launch. Updating means
+re-downloading and pressing reload.
 
-The extension exists because a bookmarklet can't work everywhere: its code runs inside the page
-and obeys that page's Content-Security-Policy. GitHub and X both set `connect-src`, which kills a
-bookmarklet's background request before it leaves the browser. The bookmarklet shipped here works
-around that by navigating instead of fetching, but the extension avoids the problem entirely.
+#### Why not the Chrome Web Store?
+
+It needs a developer account, a fee, and review. Nothing stops you publishing it there, but the
+three options above need no approval from anyone.
+
+Note that Chrome has blocked installing a packaged `.crx` from outside the Web Store since
+Chrome 33 on Windows and Chrome 44 on macOS, so "download and double-click" isn't an option for
+anybody — hence Developer mode, or the userscript.
+
+#### Why a bookmarklet isn't enough on its own
+
+A bookmarklet's code runs *inside* the page and obeys that page's Content-Security-Policy. GitHub
+and X both set `connect-src`, which kills a background request before it leaves the browser. The
+bookmarklet here works around it by navigating instead of fetching. The extension and the
+userscript avoid the problem outright — both make their requests from outside the page.
 
 ---
 
@@ -120,6 +153,7 @@ curl -s https://your-inbox.workers.dev/api/pending -H "X-Inbox-Key: $KEY"
 src/          Cloudflare Worker — the inbox, its web UI, and the API
 schema.sql    Reference copy of the tables (the Worker creates these itself)
 extension/    Chrome extension (MV3)
+userscript/   Userscript — same job, one-click install, self-updating
 mcp/          MCP server, stdio, dependency-free
 .claude/      Claude Code skill for draining the queue
 ```
