@@ -37,6 +37,8 @@ export default {
       // builder wants to fetch or paste it to wire up Actions.
       if (path === "/openapi.json") return cors(json(openapi(url.origin)));
 
+      await ensureSchema(env);
+
       // Credentials come from Worker secrets if present, otherwise from the
       // config table. `null` means nobody has claimed this inbox yet.
       const creds = await loadCreds(env);
@@ -132,6 +134,49 @@ export default {
     }
   },
 };
+
+/* ---------------------------------------------------------------- schema */
+
+/**
+ * Create the tables if they aren't there.
+ *
+ * A one-click deploy provisions an empty D1 database and has no opportunity to
+ * run a schema file, so the Worker has to be able to set itself up or the very
+ * first page load dies with "no such table". Every statement is idempotent, and
+ * the flag means this costs one batch per cold isolate and nothing afterwards.
+ *
+ * schema.sql mirrors this for anyone who prefers to apply it by hand.
+ */
+let schemaReady = false;
+
+async function ensureSchema(env) {
+  if (schemaReady) return;
+
+  await env.DB.batch([
+    env.DB.prepare(`CREATE TABLE IF NOT EXISTS items (
+      id           INTEGER PRIMARY KEY AUTOINCREMENT,
+      url          TEXT,
+      note         TEXT,
+      source       TEXT,
+      created_at   TEXT    NOT NULL,
+      status       TEXT    NOT NULL DEFAULT 'pending',
+      processed_at TEXT,
+      verdict      TEXT
+    )`),
+    env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_items_status ON items (status, id DESC)`),
+    env.DB.prepare(`CREATE TABLE IF NOT EXISTS config (
+      key   TEXT PRIMARY KEY,
+      value TEXT NOT NULL
+    )`),
+    env.DB.prepare(`CREATE TABLE IF NOT EXISTS throttle (
+      ip           TEXT    PRIMARY KEY,
+      fails        INTEGER NOT NULL DEFAULT 0,
+      window_start INTEGER NOT NULL
+    )`),
+  ]);
+
+  schemaReady = true;
+}
 
 /* ------------------------------------------------------------------ auth */
 

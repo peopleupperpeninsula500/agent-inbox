@@ -17,26 +17,33 @@ Runs on Cloudflare Workers + D1. Comfortably inside the free tier for personal u
 
 ## Deploy it
 
-Click the button. Cloudflare forks the repo, creates the D1 database, and deploys.
+**Click the button.** Cloudflare will ask you to sign in (a free account is fine), fork the repo
+to your GitHub, create the database, and deploy. No configuration to fill in.
 
-Then open your new inbox address and press **Create my inbox**. It generates a passcode and a
-secret key and shows them once — save them. That's the whole setup.
+When it finishes, open the address it gives you and press **Create my inbox**. It generates your
+passcode and secret key and shows them once — save them somewhere. That's the whole setup.
+
+> **If the very first page load shows an error**, wait a minute and refresh. Cloudflare's network
+> takes a moment to finish connecting your new database, and it can briefly show
+> `error code 1042` until it does. Nothing is wrong.
+
+Do the *Create my inbox* step promptly. Until you do, anyone who knows the address could claim
+your inbox instead of you.
 
 <details>
-<summary>Deploy from the command line instead</summary>
+<summary>Or deploy from a terminal</summary>
 
 ```bash
 git clone https://github.com/OGZamasu/agent-inbox
-cd agent-inbox/worker
+cd agent-inbox
 npm install
-npx wrangler d1 create agent-inbox     # put the id in wrangler.jsonc, or leave it out to auto-provision
-npx wrangler d1 execute agent-inbox --remote --file ./schema.sql
 npx wrangler deploy
 ```
 
-Visit the deployed URL and press **Create my inbox**.
+That's it — the database is created automatically, and the Worker builds its own tables on first
+run. Open the URL it prints and press **Create my inbox**.
 
-Prefer to set credentials yourself? Set them as secrets and the generated ones are never used:
+Prefer to choose your own credentials? Set them as secrets and the generated ones are never used:
 
 ```bash
 npx wrangler secret put INBOX_TOKEN      # long random string, used by clients
@@ -59,11 +66,15 @@ Four ways in, one destination. Your inbox's `/setup` page walks through each wit
 
 ### Chrome extension
 
-In `extension/`. Not on the Web Store — load it yourself:
+Not on the Web Store, so you load it yourself. Takes a minute:
 
-1. Go to `chrome://extensions`, turn on **Developer mode**
-2. **Load unpacked**, pick the `extension/` folder
-3. Open its options, paste your inbox address and key, press **Save and test**
+1. Download this repo — on GitHub, **Code → Download ZIP** — and unzip it
+2. Go to `chrome://extensions` and turn on **Developer mode** (top right)
+3. Click **Load unpacked** and choose the `extension` folder
+4. Click the extension's **Details → Extension options**, paste your inbox address and secret
+   key, and press **Save and test**
+
+Your key is on your inbox's **Set up** page, with a copy button.
 
 Click the toolbar icon to send the current page, right-click a link to send that, or press
 <kbd>Alt</kbd><kbd>Shift</kbd><kbd>S</kbd>.
@@ -106,11 +117,15 @@ curl -s https://your-inbox.workers.dev/api/pending -H "X-Inbox-Key: $KEY"
 ## How it holds together
 
 ```
-worker/       Cloudflare Worker + D1 — the inbox itself, its web UI, and the API
+src/          Cloudflare Worker — the inbox, its web UI, and the API
+schema.sql    Reference copy of the tables (the Worker creates these itself)
 extension/    Chrome extension (MV3)
 mcp/          MCP server, stdio, dependency-free
 .claude/      Claude Code skill for draining the queue
 ```
+
+The Worker creates its own database tables on first request, so there is no migration step to
+forget and an empty database can never break it.
 
 **Access.** Two credentials. A long **key** used by clients and by the magic link you bookmark,
 and a short **passcode** you type once on a device you don't control. Unlocking a browser sets a

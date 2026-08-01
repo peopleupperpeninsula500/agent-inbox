@@ -1,6 +1,6 @@
 # Credentials — never commit
 .secrets/
-worker/.dev.vars
+.dev.vars
 *.dev.vars
 .env
 *.env

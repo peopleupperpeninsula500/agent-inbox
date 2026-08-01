@@ -1,0 +1,15 @@
+{
+  "name": "agent-inbox",
+  "private": true,
+  "version": "1.0.0",
+  "description": "A place to send your AI agent things to look at.",
+  "license": "MIT",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail"
+  },
+  "devDependencies": {
+    "wrangler": "^4.117.0"
+  }
+}

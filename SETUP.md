@@ -9,7 +9,7 @@ when you pressed *Create my inbox*.
 Lost them? Reset from the command line:
 
 ```bash
-cd worker && npx wrangler secret put INBOX_PASSCODE
+npx wrangler secret put INBOX_PASSCODE
 ```
 
 ---
@@ -60,10 +60,13 @@ it a couple of times Android promotes it up the list.
 
 Works on every site, including ones with strict security policies.
 
-1. Go to `chrome://extensions` and turn on **Developer mode**
-2. Click **Load unpacked** and choose the `extension/` folder from this repo
-3. Click the extension's **Details → Extension options**
-4. Paste your inbox address and secret key, then press **Save and test**
+1. Download the repo — on GitHub, **Code → Download ZIP** — and unzip it
+2. Go to `chrome://extensions` and turn on **Developer mode** (top right)
+3. Click **Load unpacked** and choose the `extension` folder
+4. Click the extension's **Details → Extension options**
+5. Paste your inbox address and secret key, then press **Save and test**
+
+Both values are on your inbox's `/setup` page, each with a copy button.
 
 Chrome will ask permission to talk to your inbox address — that's access to that one site only.
 
@@ -115,6 +118,10 @@ test**; it will tell you whether the address or the key is the problem.
 
 **You sent something but your agent says the inbox is empty** — check the web page. If the item
 isn't under *Waiting* it never arrived, so the problem is the sending step, not the agent.
+
+**The very first page load after deploying shows an error** — wait a minute and refresh.
+Cloudflare needs a moment to finish connecting your database, and can briefly show
+`error code 1042` until it does.
 
 **Changes to the Worker don't seem to take effect** — Cloudflare's edge can lag a minute or so
 behind a deploy, and it may serve old and new versions inconsistently while it catches up. Wait
